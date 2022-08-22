@@ -1,0 +1,25 @@
+{
+  "name": "exchange",
+  "version": "1.0.0",
+  "description": "Casa de cambio que usa una API",
+  "main": "index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cg-diazborromeo/exchange.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/cg-diazborromeo/exchange/issues"
+  },
+  "homepage": "https://github.com/cg-diazborromeo/exchange#readme",
+  "dependencies": {
+    "bootstrap": "^5.2.0"
+  },
+  "devDependencies": {
+    "@types/jquery": "^3.5.14"
+  }
+}
