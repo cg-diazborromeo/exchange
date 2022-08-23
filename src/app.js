@@ -1,70 +1,56 @@
-/// <reference types="jquery" />
+//Agregar RegEx y validaciones de formulario.
 
-// Hacerlo todo en funciones!!! e ir paso a paso. Agregar RegEx y validaciones de formulario.
-
-const $titulo = $('h1');
-const $seleccionarMoneda = $('#seleccionar-moneda');
+const $seleccionarMoneda = document.querySelector('#seleccionar-moneda');
+const $baseMonetaria = document.querySelector('select');
+const $opionesMonedas = document.querySelector('#opciones-monedas');
+const $listaCambios = document.querySelector('#lista-cambios');
+const $urlAPI = 'https://v6.exchangerate-api.com/v6/72ef1475c41a5e123d263411/latest/'
+let baseMonetaria;
 
 obtenerMonedas();
 
+$seleccionarMoneda.onclick = function(event) {
+    const $mostrarBase = document.querySelector('em');
+    $mostrarBase.textContent = $baseMonetaria.value;
+    baseMonetaria = $baseMonetaria.value;
+    mostrarCambios();
 
+    event.preventDefault();
+}
 
+console.log(baseMonetaria);
 
-function obtenerMonedas () {
+function obtenerMonedas() {
     fetch('https://v6.exchangerate-api.com/v6/72ef1475c41a5e123d263411/codes')
     .then(respuesta => respuesta.json())
     .then(respuesta => {
-        $('#opciones-monedas').html('');
         Object.keys(respuesta.supported_codes).forEach(moneda => {
-            $("#opciones-monedas").append($(`<option value="${respuesta.supported_codes[moneda]}">${respuesta.supported_codes[moneda]}</option>`));
+            const $moneda = document.createElement('option');
+            $moneda.value = respuesta.supported_codes[moneda][0];
+            $moneda.textContent = `${respuesta.supported_codes[moneda][0]} ${respuesta.supported_codes[moneda][1]}`;
+            $opionesMonedas.appendChild($moneda);
         })
-        console.log(respuesta.supported_codes);
     })
+    .catch(error => console.error("FALLÓ", error));
 };
 
-
-
-// function agregarOpciones() {
-//     totalCurrencies.forEach(function (e) {
-//       let newOption = document.createElement("option");
-  
-//       newOption.textContent = e;
-//       newOption.value = e;
-//       $initialSelector.appendChild(newOption);
-//       $finalSelector.appendChild(newOption.cloneNode(true));
-//     });
-//   }
-
-// fetch('https://v6.exchangerate-api.com/v6/72ef1475c41a5e123d263411/latest/USD')
-// .then(respuesta => respuesta.json())
-// .then(respuestaJSON => {
-//     $('#bases').html('');
-//     Object.keys(respuestaJSON.conversion_rates).forEach(moneda => {
-//         $("#bases").append($(`<option value="${moneda}">${moneda}</option>`));
-//     })
-
-    
-//     $seleccionarMoneda.onclick = () => {
-//         exchangeBase = $('#bases').text;
-//         console.log(exchangeBase);
-//         onsubmit.preventDefault()
-//     }
-
-//     $("#base-monetaria").html('').text(`Moneda base: ${respuestaJSON.base_code}`);
-//     return exchangeBase;
-// });
-
-// fetch('https://v6.exchangerate-api.com/v6/72ef1475c41a5e123d263411/latest/' + exchangeBase)
-// .then(respuesta => respuesta.json())
-// .then(respuestaJSON => {
-//     $titulo.text(`Los rates al dia ${respuestaJSON.time_last_update_utc}:`);
-//     console.log(respuestaJSON);
-
-//     $("ul").html('');
-//     Object.keys(respuestaJSON.conversion_rates).forEach(moneda => {
-//       $("ul").append($(`<li>${moneda}: ${respuestaJSON.conversion_rates[moneda]}</li>`));
-//     });
-// })
-// .catch(error => console.error("FALLÓ", error));
-
-
+function mostrarCambios() {
+    fetch(`${$urlAPI}${baseMonetaria}`)
+    .then(respuesta => respuesta.json())
+    .then(respuesta => {
+        Object.keys(respuesta.conversion_rates).forEach(moneda => {
+            const $cambio = document.createElement('li');
+            $cambio.textContent = `${moneda}: ${respuesta.conversion_rates[moneda]}`;
+            if (Number(respuesta.conversion_rates[moneda]) > 1 ) {
+                $cambio.classList = 'list-group-item list-group-item-success';
+            } else if (Number(respuesta.conversion_rates[moneda]) === 1) {
+                $cambio.classList = 'list-group-item list-group-item-light';
+            } else {
+                $cambio.classList = 'list-group-item list-group-item-danger';
+            }
+            
+            $listaCambios.appendChild($cambio);
+        })
+    })
+    .catch(error => console.error("FALLÓ", error));
+}
