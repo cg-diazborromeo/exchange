@@ -4,7 +4,8 @@ const $seleccionarMoneda = document.querySelector('#seleccionar-moneda');
 const $baseMonetaria = document.querySelector('select');
 const $opionesMonedas = document.querySelector('#opciones-monedas');
 const $listaCambios = document.querySelector('#lista-cambios');
-const $urlAPI = 'https://v6.exchangerate-api.com/v6/72ef1475c41a5e123d263411/latest/'
+const $selecciones = document.querySelector('#selecciones');
+const $urlAPI = 'https://v6.exchangerate-api.com/v6/72ef1475c41a5e123d263411/latest/';
 let baseMonetaria;
 
 obtenerMonedas();
@@ -14,11 +15,10 @@ $seleccionarMoneda.onclick = function(event) {
     $mostrarBase.textContent = $baseMonetaria.value;
     baseMonetaria = $baseMonetaria.value;
     mostrarCambios();
+    mostrarSelecciones();
 
     event.preventDefault();
 }
-
-console.log(baseMonetaria);
 
 function obtenerMonedas() {
     fetch('https://v6.exchangerate-api.com/v6/72ef1475c41a5e123d263411/codes')
@@ -53,4 +53,8 @@ function mostrarCambios() {
         })
     })
     .catch(error => console.error("FALLÓ", error));
+}
+
+function mostrarSelecciones() {
+    $selecciones.classList = '';
 }
