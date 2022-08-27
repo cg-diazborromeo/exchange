@@ -13,16 +13,26 @@
 
     <form>
         <div class="row">
-            <div class="col">
+            <div class="col-6">
                 <select class="form-select form-select-sm" aria-label=".form-select-sm example" id="opciones-monedas">
                     <option selected>Seleccione una base monetaria</option>
                     <option value=""></option>
                 </select>
             </div>
-            <div class="col">
-                <button type="submit" class="btn btn-primary" id="seleccionar-moneda">Seleccionar</button>
+        </div> 
+        <div class="row">
+            <div class="col-6">
+                <select class="form-select form-select-sm mt-2" aria-label=".form-select-sm example" id="opciones-fechas">
+                    <option selected>YYYY-MM-DD</option>
+                    <option value=""></option>
+                </select>
             </div>
-        </div>  
+        </div> 
+        <div class="row">
+            <div class="col">
+                <button type="submit" class="btn btn-primary mt-2 mb-2" id="seleccionar">Seleccionar</button>
+            </div>
+        </div> 
     </form>
     
     <div id="selecciones" class="oculto">
