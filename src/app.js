@@ -29,7 +29,6 @@ function obtenerMonedas() {
             $moneda.textContent = `${respuesta.symbols[moneda].code}: ${respuesta.symbols[moneda].description}`;
             $opionesMonedas.appendChild($moneda);
         });
-        console.log(respuesta)
     })
     .catch(error => console.error("FALLÓ", error));
 };
