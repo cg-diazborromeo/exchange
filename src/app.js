@@ -13,19 +13,23 @@ let fechaCambios;
 obtenerMonedas();
 
 $seleccionarInputs.onclick = function(event) {
-    $mostrarBase.textContent = $baseMonetaria.value;
-    baseMonetaria = $baseMonetaria.value;
+    obtenerBaseMonetaria();
     obtenerFechasCambios();
+    resetSeleccion();
     mostrarCambios();
-    mostrarSelecciones();
+    mostrarSeleccionBase();
 
     event.preventDefault();
 }
 
+function obtenerBaseMonetaria() {
+    $mostrarBase.textContent = $baseMonetaria.value;
+    baseMonetaria = $baseMonetaria.value;
+}
+
 function obtenerFechasCambios() {
     fechaCambios = $opcionesFechas.value;
-    $mostrarFecha.textContent = ` del dia ${$opcionesFechas.value}`
-
+    $mostrarFecha.textContent = ` del dia ${$opcionesFechas.value}:`
 }
 
 function obtenerMonedas() {
@@ -64,6 +68,14 @@ function mostrarCambios() {
     .catch(error => console.error("FALLÓ", error));
 }
 
-function mostrarSelecciones() {
+function mostrarSeleccionBase() {
     $selecciones.classList = '';
+}
+
+function resetSeleccion() {
+    const $seleccionesCambios = document.querySelectorAll('#lista-cambios li');
+    $seleccionesCambios.forEach(cambio => {
+        $listaCambios.removeChild(cambio);
+    });
+    $selecciones.classList = 'oculto';
 }
