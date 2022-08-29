@@ -4,23 +4,32 @@ const $opionesMonedas = document.querySelector('#opciones-monedas');
 const $opcionesFechas = document.querySelector('#opciones-fechas');
 const $listaCambios = document.querySelector('#lista-cambios');
 const $selecciones = document.querySelector('#selecciones');
-const $urlBase = new URL('https://api.exchangerate.host/');
+const $mostrarBase = document.querySelector('p em');
+const $mostrarFecha = document.querySelector('h1 em');
+const $urlBase = new URL('https://api.exchangerate.host');
 let baseMonetaria;
+let fechaCambios;
 
 obtenerMonedas();
 
 $seleccionarInputs.onclick = function(event) {
-    const $mostrarBase = document.querySelector('em');
     $mostrarBase.textContent = $baseMonetaria.value;
     baseMonetaria = $baseMonetaria.value;
+    obtenerFechasCambios();
     mostrarCambios();
     mostrarSelecciones();
 
     event.preventDefault();
 }
 
+function obtenerFechasCambios() {
+    fechaCambios = $opcionesFechas.value;
+    $mostrarFecha.textContent = ` del dia ${$opcionesFechas.value}`
+
+}
+
 function obtenerMonedas() {
-    fetch('https://api.exchangerate.host/symbols')
+    fetch(`${$urlBase}/symbols`)
     .then(respuesta => respuesta.json())
     .then(respuesta => {
         Object.keys(respuesta.symbols).forEach(moneda => {
@@ -34,7 +43,7 @@ function obtenerMonedas() {
 };
 
 function mostrarCambios() {
-    fetch(`${$urlBase}latest?base=${baseMonetaria}`)
+    fetch(`${$urlBase}/${fechaCambios}?base=${baseMonetaria}`)
     .then(respuesta => respuesta.json())
     .then(respuesta => {
         Object.keys(respuesta.rates).forEach(moneda => {
