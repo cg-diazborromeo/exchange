@@ -42,9 +42,8 @@ function obtenerMonedas() {
             $moneda.textContent = `${respuesta.symbols[moneda].code}: ${respuesta.symbols[moneda].description}`;
             $opionesMonedas.appendChild($moneda);
         });
-        console.log(respuesta)
     })
-    .catch(error => console.error("FALLÓ", error));
+    .catch(error => window.alert("En estos momentos no es posible obtener las Bases Monetarias. Intente nuevamente mas tarde.", error));
 };
 
 function mostrarCambios() {
@@ -65,7 +64,7 @@ function mostrarCambios() {
             $listaCambios.appendChild($cambio);
         })
     })
-    .catch(error => console.error("FALLÓ", error));
+    .catch(error => window.alert("Por favor, seleccione otra fecha y/o moneda.", error));
 }
 
 function mostrarSeleccionBase() {
