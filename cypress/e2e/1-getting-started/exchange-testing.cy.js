@@ -15,19 +15,17 @@ describe('Testeo exchange', () => {
 
   it('Selecciona moneda y fecha de cambios', () => {
     cy.get('#opciones-monedas').select('ARS').should('have.value', 'ARS');
+    cy.get('#opciones-monedas>option').should('be.visible');
     cy.get('#opciones-fechas').type('2020-08-25');
     cy.get('#seleccionar').click();
 
   })
 
   it('Comprueba resultados', () => {
-    const cantidadMonedas = cy.get('#opciones-monedas').length;
-    cy.get('#base-monetaria').should('be.visible');
-    cy.get('#lista-cambios')
-      .should('be.visible')
-      .should(($li) => {
-        expect($li).to.have.length(cantidadMonedas);
-      })
+    cy.get('#lista-cambios').should('be.visible')
+    cy.get('#lista-cambios>li').should(($li) => {
+      expect($li).to.have.length('171');
+    })
 
   })
 
